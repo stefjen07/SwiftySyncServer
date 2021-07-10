@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-	unsigned port = 8888;
+	int port = 8888;
 	SwiftyServer server("localhost", port);
 	server.collections = {
 		Collection(&server, "users"),
