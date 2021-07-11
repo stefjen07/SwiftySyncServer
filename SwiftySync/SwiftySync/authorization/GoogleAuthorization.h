@@ -17,9 +17,13 @@ public:
 		return AuthorizationStatus::error;
 	}
 
+	bool isValid(string body) {
+		return false;
+	}
+
 	GoogleProvider() {
 		Py_Initialize();
-		authScript = fopen(GOOGLE_AUTH_SCRIPT_NAME, "r");
+		fopen_s(&authScript, GOOGLE_AUTH_SCRIPT_NAME, "r");
 	}
 
 	~GoogleProvider() {

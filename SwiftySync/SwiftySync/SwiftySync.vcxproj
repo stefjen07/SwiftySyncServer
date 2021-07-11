@@ -95,7 +95,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +115,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,7 +131,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

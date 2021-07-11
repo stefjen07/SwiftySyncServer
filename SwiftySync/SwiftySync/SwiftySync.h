@@ -152,9 +152,17 @@ class SecurityRule {
 
 struct ConnectionData {
 	string connectionId;
+	string userId;
 };
 
 typedef uWS::WebSocket<0, 1, ConnectionData>* WebSocket;
+
+struct ServerBehavior {
+	function<void(bool)> completion;
+	function<void(WebSocket)> connectionOpened;
+	function<void(WebSocket)> messageReceived;
+	function<void(AuthorizationStatus)> authorized;
+};
 
 class SwiftyServer {
 public:
@@ -164,6 +172,7 @@ public:
 
 	vector<Collection> collections;
 	vector<AuthorizationProvider*> supportedProviders;
+	ServerBehavior behavior;
 
 	Collection* operator [](string name) {
 		for (int i = 0; i < collections.size(); i++) {
@@ -186,11 +195,33 @@ public:
 		}
 	}
 
-	void authorize(WebSocket ws, string body, const function<void()> authorized) {
-		authorized();
+	void authorizeWithStatus(WebSocket ws, AuthorizationStatus status) {
+		ConnectionData* data = (ConnectionData*)ws->getUserData();
+		string respond = "A";
+		if (status == AuthorizationStatus::authorized) {
+			respond += 'S';
+		}
+		else if (status == AuthorizationStatus::corruptedCredentials) {
+			respond += 'C';
+		}
+		else if (status == AuthorizationStatus::error) {
+			respond += 'E';
+		}
+		string_view respondView{ respond };
+		ws->send(respondView);
+		behavior.authorized(status);
 	}
 
-	void handleMessage(WebSocket ws, string_view message, const function<void()> authorized) {
+	void authorize(WebSocket ws, string body) {
+		for (auto provider : supportedProviders) {
+			if (provider->isValid(body)) {
+				authorizeWithStatus(ws, AuthorizationStatus::authorized);
+			}
+		}
+		authorizeWithStatus(ws, AuthorizationStatus::corruptedCredentials);
+	}
+
+	void handleMessage(WebSocket ws, string_view message) {
 		char type = message[0];
 		string body;
 		for (int i = 1; i < message.length(); i++) {
@@ -198,34 +229,33 @@ public:
 		}
 		switch (type) {
 		case 'A':
-			authorize(ws, body, authorized);
+			authorize(ws, body);
 		}
 	}
 
-	void run(const function<void(bool)> completion, const function<void(WebSocket)> connectionOpened, const function<void(WebSocket)> messageReceived, const function<void()> authorized) {
+	void run() {
 		bool started = true;
 		read();
 		save();
-		completion(started);
 		uWS::App().ws<ConnectionData>("/*", {
-			.open = [connectionOpened](auto* ws) {
+			.open = [this](auto* ws) {
 				ConnectionData* data = (ConnectionData*)ws->getUserData();
 				data->connectionId = create_uuid();
-				ws->subscribe(data->connectionId);
-				connectionOpened(ws);
+				behavior.connectionOpened(ws);
 			},
-			.message = [messageReceived, this, authorized](auto* ws, string_view message, uWS::OpCode opCode) {
-				handleMessage(ws, message, authorized);
-				messageReceived(ws);
+			.message = [this](auto* ws, string_view message, uWS::OpCode opCode) {
+				behavior.messageReceived(ws);
+				handleMessage(ws, message);
 			}
-		}).listen(port, [](auto* ws) {
-			
+		}).listen(port, [this](auto* token) {
+			behavior.completion(token);
 		}).run();
 	}
 
-	SwiftyServer(string address, int port) {
+	SwiftyServer(string address, int port, ServerBehavior behavior) {
 		this->address = address;
 		this->port = port;
+		this->behavior = behavior;
 	}
 };
 

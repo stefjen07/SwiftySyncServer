@@ -5,7 +5,32 @@
 
 int main() {
 	int port = 8888;
-	SwiftyServer server("localhost", port);
+	SwiftyServer server("localhost", port, {
+		.completion = [port](bool started) {
+			if (started) {
+				cout << "Server started on port " << port << endl;
+			}
+			else {
+				cout << "Start failed" << endl;
+			}
+		},
+		.connectionOpened = [](auto* ws) {
+			auto connectionData = (ConnectionData*)ws->getUserData();
+			cout << "New connection with id " << connectionData->connectionId << "\n";
+		},
+		.messageReceived = [](auto* ws) {
+			auto connectionData = (ConnectionData*)ws->getUserData();
+			cout << "Message received from id " << connectionData->connectionId << "\n";
+		},
+		.authorized = [](AuthorizationStatus status) {
+			if (status == AuthorizationStatus::authorized) {
+				cout << "Authorized\n";
+			}
+			else {
+				cout << "Authorization failed\n";
+			}
+		}
+	});
 	server.collections = {
 		Collection(&server, "users"),
 		Collection(&server, "trips")
@@ -15,22 +40,7 @@ int main() {
 	server.supportedProviders = {
 		castedGoogleProvider
 	};
-	server.run([port](bool started) {
-		if (started) {
-			cout << "Server started on port " << port << endl;
-		}
-		else {
-			cout << "Start failed" << endl;
-		}
-	}, [](auto* ws) {
-		auto connectionData = (ConnectionData*)ws->getUserData();
-		cout << "New connection with id " << connectionData->connectionId << "\n";
-	}, [](auto* ws) {
-		auto connectionData = (ConnectionData*)ws->getUserData();
-		cout << "Message received from id " << connectionData->connectionId << "\n";
-	}, []() {
-		cout << "Authorized\n";
-	});
+	server.run();
 	if (server["users"] == NULL) {
 		cout << "There is no USERS container\n";
 	}
