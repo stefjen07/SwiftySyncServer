@@ -89,13 +89,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,12 +108,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,13 +125,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,12 +144,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\python;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -158,6 +162,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Codable-\Codable++\Codable.h" />
     <ClInclude Include="..\..\..\Codable-\Codable++\JSON.h" />
+    <ClInclude Include="authorization\Authorization.h" />
+    <ClInclude Include="authorization\FacebookAuthorization.h" />
+    <ClInclude Include="authorization\GoogleAuthorization.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="SwiftySync.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -10,7 +10,10 @@
 #include <fstream>
 #include "Codable.h"
 #include "JSON.h"
+#include "Helper.h"
 #include <experimental/filesystem>
+#include <iostream>
+#include "Authorization.h"
 
 namespace fs = std::experimental::filesystem;
 using namespace std;
@@ -148,8 +151,10 @@ class SecurityRule {
 };
 
 struct ConnectionData {
-
+	string connectionId;
 };
+
+typedef uWS::WebSocket<0, 1, ConnectionData>* WebSocket;
 
 class SwiftyServer {
 public:
@@ -158,6 +163,7 @@ public:
 	string serverUrl = "";
 
 	vector<Collection> collections;
+	vector<AuthorizationProvider*> supportedProviders;
 
 	Collection* operator [](string name) {
 		for (int i = 0; i < collections.size(); i++) {
@@ -180,17 +186,37 @@ public:
 		}
 	}
 
-	void run(const function<void(bool)> completion) {
+	void authorize(WebSocket ws, string body, const function<void()> authorized) {
+		authorized();
+	}
+
+	void handleMessage(WebSocket ws, string_view message, const function<void()> authorized) {
+		char type = message[0];
+		string body;
+		for (int i = 1; i < message.length(); i++) {
+			body += message[i];
+		}
+		switch (type) {
+		case 'A':
+			authorize(ws, body, authorized);
+		}
+	}
+
+	void run(const function<void(bool)> completion, const function<void(WebSocket)> connectionOpened, const function<void(WebSocket)> messageReceived, const function<void()> authorized) {
 		bool started = true;
 		read();
 		save();
 		completion(started);
 		uWS::App().ws<ConnectionData>("/*", {
-			.open = [](auto* ws) {
-
+			.open = [connectionOpened](auto* ws) {
+				ConnectionData* data = (ConnectionData*)ws->getUserData();
+				data->connectionId = create_uuid();
+				ws->subscribe(data->connectionId);
+				connectionOpened(ws);
 			},
-			.message = [](auto* ws, string_view message, uWS::OpCode opCode) {
-
+			.message = [messageReceived, this, authorized](auto* ws, string_view message, uWS::OpCode opCode) {
+				handleMessage(ws, message, authorized);
+				messageReceived(ws);
 			}
 		}).listen(port, [](auto* ws) {
 			

@@ -35,5 +35,17 @@
     <ClInclude Include="SwiftySync.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="authorization\Authorization.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="authorization\FacebookAuthorization.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="authorization\GoogleAuthorization.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
