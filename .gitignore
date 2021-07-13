@@ -2,5 +2,4 @@
 /Debug
 /Release
 /x64
-/users
-/trips
+/vcpkg_installed

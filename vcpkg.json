@@ -1,0 +1,9 @@
+{
+  "name": "swifty-sync",
+  "version-string": "1.0.0",
+  "description": "",
+  "dependencies": [
+    "uwebsockets",
+    "python3"
+  ]
+}
