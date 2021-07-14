@@ -8,9 +8,9 @@
 #define GOOGLE_CLIENT_ID "your-client-id"
 #endif
 
-#ifndef FACEBOOK_CLIENT_ID
-#define FACEBOOK_CLIENT_ID ""
-#define FACEBOOK_CLIENT_SECRET ""
+#ifndef FACEBOOK_ACCESS_TOKEN
+#define FACEBOOK_ACCESS_TOKEN "your-access-token"
+#define FACEBOOK_APP_ID "your-app-id"
 #endif
 
 int main() {
@@ -49,19 +49,30 @@ int main() {
 	auto googleProvider = GoogleProvider(GOOGLE_CLIENT_ID);
 	auto castedGoogleProvider = (AuthorizationProvider*) static_cast<AuthorizationProvider*>(&googleProvider);
 	
-	auto facebookProvider = FacebookProvider(FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET);
+	auto facebookProvider = FacebookProvider(FACEBOOK_ACCESS_TOKEN, FACEBOOK_APP_ID);
 	auto castedFacebookProvider = (FacebookProvider*) static_cast<FacebookProvider*>(&facebookProvider);
 
 	server.supportedProviders = {
 		castedGoogleProvider,
 		castedFacebookProvider
 	};
-	server.run();
-	if (server["users"] == NULL) {
-		cout << "There is no USERS container\n";
-	}
-	else {
-		server["users"]->createDocument("stefjen07");
-	}
+	Collection* usersCollection = server["users"];
+	usersCollection->onDocumentCreating = []() {
+		cout << "New document created\n";
+	};
+	server.run({
+		.afterStart = [usersCollection]() {
+			if (usersCollection == NULL) {
+				cout << "There is no USERS container\n";
+			}
+			else {
+				usersCollection->createDocument("stefjen07");
+			}
+		},
+		.update = [server]() {
+			cout << "Everything is OK\n";
+		},
+		.updateInterval = 10000
+	});
 	return 0;
 }

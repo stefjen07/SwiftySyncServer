@@ -3,4 +3,6 @@
 /Release
 /x64
 /vcpkg_installed
-src/Keys.h
+/src/Keys.h
+/users
+collectionList.txt

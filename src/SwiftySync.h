@@ -14,6 +14,7 @@
 #include <fstream>
 #include <experimental/filesystem>
 #include <iostream>
+#include <timercpp.h>
 
 namespace fs = std::experimental::filesystem;
 using namespace std;
@@ -119,6 +120,8 @@ public:
 
 	string collectionUrl();
 
+	function<void()> onDocumentCreating = []() {};
+
 	Document* operator [](string name) {
 		for (int i = 0; i < documents.size(); i++) {
 			return &documents[i];
@@ -126,12 +129,28 @@ public:
 		return NULL;
 	}
 
+	bool isDocumentNameTaken(string name) {
+		for (int i = 0; i < documents.size(); i++) {
+			if (name == documents[i].name) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	void read();
 	void save();
 	void createDocument(string name) {
+		if(isDocumentNameTaken(name)) {
+			cout << "Document is already created\n";
+			return;
+		}
 		auto document = Document(this, name);
 		documents.push_back(document);
 		save();
+		if (onDocumentCreating != NULL) {
+			onDocumentCreating();
+		}
 	}
 
 	Collection(SwiftyServer* server, string name) {
@@ -158,10 +177,17 @@ struct ConnectionData {
 typedef uWS::WebSocket<0, 1, ConnectionData>* WebSocket;
 
 struct ServerBehavior {
-	function<void(bool)> completion;
-	function<void(WebSocket)> connectionOpened;
-	function<void(WebSocket)> messageReceived;
-	function<void(AuthorizationStatus)> authorized;
+	function<void(bool)> completion = [](auto result) {};
+	function<void(WebSocket)> connectionOpened = [](auto ws) {};
+	function<void(WebSocket)> messageReceived = [](auto ws) {};
+	function<void(AuthorizationStatus)> authorized = [](auto as) {};
+};
+
+struct RunBehavior {
+	function<void()> afterStart = []() {};
+	function<void()> update = []() {};
+
+	unsigned updateInterval = 1000;
 };
 
 class SwiftyServer {
@@ -184,6 +210,18 @@ public:
 	}
 
 	void read() {
+		string listPath = "collectionList.txt";
+		if (!fs::exists(listPath)) {
+			return;
+		}
+		ifstream list(listPath);
+		vector<Collection> newCollections;
+		while (!list.eof()) {
+			string collectionName;
+			list >> collectionName;
+			newCollections.push_back(Collection(this, collectionName));
+		}
+		collections = newCollections;
 		for (int i = 0; i < collections.size(); i++) {
 			collections[i].read();
 		}
@@ -192,6 +230,10 @@ public:
 	void save() {
 		for (auto collection : collections) {
 			collection.save();
+		}
+		ofstream list("collectionList.txt");
+		for (auto collection : collections) {
+			list << collection.name << "\n";
 		}
 	}
 
@@ -238,10 +280,12 @@ public:
 		}
 	}
 
-	void run() {
+	void run(RunBehavior runBehavior) {
 		bool started = true;
 		read();
 		save();
+		Timer t = Timer();
+		t.setInterval(runBehavior.update, runBehavior.updateInterval);
 		uWS::App().ws<ConnectionData>("/*", {
 			.open = [this](auto* ws) {
 				ConnectionData* data = (ConnectionData*)ws->getUserData();
@@ -252,8 +296,9 @@ public:
 				behavior.messageReceived(ws);
 				handleMessage(ws, message);
 			}
-		}).listen(port, [this](auto* token) {
+		}).listen(port, [this, runBehavior](auto* token) {
 			behavior.completion(token);
+			runBehavior.afterStart();
 		}).run();
 	}
 
@@ -269,7 +314,9 @@ string Collection::collectionUrl() {
 }
 
 void Collection::save() {
-	fs::create_directory(server->serverUrl + name);
+	string url = collectionUrl();
+	url.erase(url.end() - 1);
+	fs::create_directory(url);
 	for (auto document : documents) {
 		document.save();
 	}
