@@ -2,3 +2,9 @@
 	path = CodablePP
 	url = https://github.com/stefjen07/CodablePP.git
 	branch = main
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git
+[submodule "cpp-httplib"]
+	path = cpp-httplib
+	url = https://github.com/yhirose/cpp-httplib.git

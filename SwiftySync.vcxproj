@@ -72,15 +72,35 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\uWebSockets\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>true</VcpkgEnabled>
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,13 +109,15 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\cpp-httplib;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\src\authorization;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,14 +130,16 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\cpp-httplib;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\src\authorization;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,13 +149,15 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\cpp-httplib;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\src\authorization;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,29 +170,30 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\SwiftySync\SwiftySync\authorization;C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\cpp-httplib;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\src\authorization;C:\Users\stefj\OneDrive\Documents\GitHub\SwiftySync\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Python39\include;C:\Users\stefj\OneDrive\Documents\GitHub\Codable-\Codable++;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Codable-\Codable++\Codable.cpp" />
-    <ClCompile Include="..\..\..\Codable-\Codable++\JSON.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CodablePP\src\Codable.cpp" />
+    <ClCompile Include="CodablePP\src\JSON.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Codable-\Codable++\Codable.h" />
-    <ClInclude Include="..\..\..\Codable-\Codable++\JSON.h" />
-    <ClInclude Include="authorization\Authorization.h" />
-    <ClInclude Include="authorization\FacebookAuthorization.h" />
-    <ClInclude Include="authorization\GoogleAuthorization.h" />
-    <ClInclude Include="Helper.h" />
-    <ClInclude Include="SwiftySync.h" />
+    <ClInclude Include="src\authorization\Authorization.h" />
+    <ClInclude Include="src\authorization\FacebookAuthorization.h" />
+    <ClInclude Include="src\authorization\GoogleAuthorization.h" />
+    <ClInclude Include="src\Helper.h" />
+    <ClInclude Include="src\Keys.h" />
+    <ClInclude Include="src\SwiftySync.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

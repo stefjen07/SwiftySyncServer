@@ -4,6 +4,6 @@
   "description": "",
   "dependencies": [
     "uwebsockets",
-    "python3"
+    "openssl"
   ]
 }

@@ -207,15 +207,20 @@ public:
 		else if (status == AuthorizationStatus::error) {
 			respond += 'E';
 		}
-		string_view respondView{ respond };
-		ws->send(respondView);
+		ws->send(respond);
 		behavior.authorized(status);
 	}
 
 	void authorize(WebSocket ws, string body) {
+		ConnectionData* data = (ConnectionData*)ws->getUserData();
 		for (auto provider : supportedProviders) {
 			if (provider->isValid(body)) {
-				authorizeWithStatus(ws, AuthorizationStatus::authorized);
+				auto response = provider->authorize(body);
+				if (response.status == AuthorizationStatus::authorized) {
+					data->userId = response.userId;
+				}
+				authorizeWithStatus(ws, response.status);
+				return;
 			}
 		}
 		authorizeWithStatus(ws, AuthorizationStatus::corruptedCredentials);

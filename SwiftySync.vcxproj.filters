@@ -15,36 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Codable-\Codable++\Codable.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Codable-\Codable++\JSON.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="CodablePP\src\Codable.cpp">
+      <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="CodablePP\src\JSON.cpp">
+      <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Codable-\Codable++\Codable.h">
+    <ClInclude Include="src\authorization\Authorization.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Codable-\Codable++\JSON.h">
+    <ClInclude Include="src\authorization\FacebookAuthorization.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="SwiftySync.h">
+    <ClInclude Include="src\authorization\GoogleAuthorization.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Helper.h">
+    <ClInclude Include="src\Helper.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="authorization\Authorization.h">
+    <ClInclude Include="src\SwiftySync.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="authorization\FacebookAuthorization.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="authorization\GoogleAuthorization.h">
+    <ClInclude Include="src\Keys.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
