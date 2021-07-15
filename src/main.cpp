@@ -13,6 +13,18 @@
 #define FACEBOOK_APP_ID "your-app-id"
 #endif
 
+class DebugProvider : public AuthorizationProvider {
+	AuthorizationResponse authorize(string body) {
+		AuthorizationResponse response;
+		response.status = AuthorizationStatus::authorized;
+		response.userId = "stefjen07";
+		return response;
+	}
+	bool isValid(string body) {
+		return true;
+	}
+};
+
 int main() {
 	int port = 8888;
 	SwiftyServer server("localhost", port, {
@@ -43,7 +55,8 @@ int main() {
 	});
 	server.collections = {
 		Collection(&server, "users"),
-		Collection(&server, "trips")
+		Collection(&server, "trips"),
+		Collection(&server, "privileges")
 	};
 
 	auto googleProvider = GoogleProvider(GOOGLE_CLIENT_ID);
@@ -52,13 +65,68 @@ int main() {
 	auto facebookProvider = FacebookProvider(FACEBOOK_ACCESS_TOKEN, FACEBOOK_APP_ID);
 	auto castedFacebookProvider = (FacebookProvider*) static_cast<FacebookProvider*>(&facebookProvider);
 
+	auto debugProvider = DebugProvider();
+	auto castedDebugProvider = (DebugProvider*) static_cast<DebugProvider*>(&debugProvider);
+
 	server.supportedProviders = {
 		castedGoogleProvider,
-		castedFacebookProvider
+		castedFacebookProvider,
+		castedDebugProvider
 	};
 	Collection* usersCollection = server["users"];
+	Collection* tripsCollection = server["trips"];
+	Collection* privilegesCollection = server["privileges"];
 	usersCollection->onDocumentCreating = []() {
 		cout << "New document created\n";
+	};
+	server.rule = {
+		.dataRule = [usersCollection, tripsCollection, privilegesCollection](DataRequest* request) {
+			Collection* requestCollection = nullptr;
+			if (request->collectionName == "users")
+				requestCollection = usersCollection;
+			if (request->collectionName == "trips")
+				requestCollection = tripsCollection;
+			if (request->collectionName == "privileges")
+				requestCollection = privilegesCollection;
+			if (requestCollection == nullptr)
+				return false;
+			if (requestCollection == usersCollection) {
+				return requestCollection->isDocumentNameTaken(request->documentName) && request->documentName == request->connection.userId;
+			}
+			if (requestCollection == tripsCollection || requestCollection == privilegesCollection) {
+				if (request->type == RequestType::documentGet) {
+					if (!tripsCollection->isDocumentNameTaken(request->documentName) || !privilegesCollection->isDocumentNameTaken(request->documentName)) {
+						return false;
+					}
+					auto privilegesDoc = privilegesCollection->operator[](request->documentName);
+					auto members = privilegesDoc->operator[]("members");
+					if (members != NULL) {
+						for (auto child : members->children) {
+							if (child.strValue == request->connection.userId) {
+								return true;
+							}
+						}
+					}
+				}
+				if (request->type == RequestType::documentSet) {
+					if (!requestCollection->isDocumentNameTaken(request->documentName)) {
+						return true;
+					}
+					else {
+						auto privilegesDoc = privilegesCollection->operator[](request->documentName);
+						if (privilegesDoc != NULL) {
+							auto admin = privilegesDoc->operator[]("admin");
+							if (admin != NULL) {
+								if (admin->strValue == request->connection.userId) {
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
 	};
 	server.run({
 		.afterStart = [usersCollection]() {

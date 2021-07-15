@@ -1,6 +1,12 @@
 #ifndef AUTHORIZATION_H
 #define AUTHORIZATION_H
 
+#define AUTHORIZED_LOCALIZE "S"
+#define CORR_CRED_LOCALIZE "C"
+#define AUTH_ERR_LOCALIZE "E"
+
+//#define AUTH_DEBUG
+
 enum class AuthorizationStatus {
 	authorized,
 	corruptedCredentials,
@@ -17,9 +23,7 @@ public:
 		this->userId = userId;
 	}
 
-	AuthorizationResponse() {
-
-	}
+	AuthorizationResponse() {}
 };
 
 class AuthorizationProvider {

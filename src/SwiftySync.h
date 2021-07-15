@@ -15,6 +15,16 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <timercpp.h>
+#include <algorithm>
+
+#define AUTH_PREFIX "A"
+#define REQUEST_PREFIX "R"
+#define DOCUMENT_GET_PREFIX "DG"
+#define DOCUMENT_SET_PREFIX "DS"
+#define DATA_REQUEST_PREFIX "DR"
+#define DATA_SET_SUCCESSFUL "DSS"
+#define DATA_REQUEST_FAILURE "DRF"
+#define DOCUMENT_EXTENSION "document"
 
 namespace fs = std::experimental::filesystem;
 using namespace std;
@@ -31,6 +41,7 @@ public:
 	string name;
 	double numValue;
 	string strValue;
+	vector<Field> children;
 
 	void addChild(Field child) {
 		if (type == FieldType::array) {
@@ -41,6 +52,7 @@ public:
 	void encode(CoderContainer* container) {
 		if (container->type == CoderType::json) {
 			JSONEncodeContainer* jsonContainer = dynamic_cast<JSONEncodeContainer*>(container);
+			jsonContainer->encode(type, name + "type");
 			if (type == FieldType::array) {
 				jsonContainer->encode(children, name);
 			}
@@ -56,6 +68,7 @@ public:
 	void decode(CoderContainer* container) {
 		if (container->type == CoderType::json) {
 			JSONDecodeContainer* jsonContainer = dynamic_cast<JSONDecodeContainer*>(container);
+			type = FieldType(jsonContainer->decode(int(), name + "type"));
 			if (type == FieldType::array) {
 				children = jsonContainer->decode(vector<Field>(), name);
 			}
@@ -68,16 +81,12 @@ public:
 		}
 	}
 
-	Field() {
-
-	}
+	Field() {}
 
 	Field(FieldType type, string name) {
 		this->type = type;
 		this->name = name;
 	}
-private:
-	vector<Field> children;
 };
 
 class Collection;
@@ -142,7 +151,6 @@ public:
 	void save();
 	void createDocument(string name) {
 		if(isDocumentNameTaken(name)) {
-			cout << "Document is already created\n";
 			return;
 		}
 		auto document = Document(this, name);
@@ -159,19 +167,76 @@ public:
 	}
 };
 
-class Request {
-
-};
-
-class SecurityRule {
-	bool checkAccess(Request request) {
-
-	}
+enum class RequestType {
+	documentSet,
+	documentGet,
+	fieldSet,
+	fieldGet
 };
 
 struct ConnectionData {
 	string connectionId;
 	string userId;
+};
+
+class Request {
+public:
+	RequestType type;
+	ConnectionData connection;
+	virtual void nothing() {};
+};
+
+class DataRequest : public Request, public Codable {
+public:
+	string collectionName;
+	string documentName;
+	string body;
+
+	void nothing() {}
+
+	void encode(CoderContainer* container) {
+		if (container->type == CoderType::json) {
+			JSONEncodeContainer* jsonContainer = dynamic_cast<JSONEncodeContainer*>(container);
+			jsonContainer->encode(collectionName, "collection");
+			jsonContainer->encode(documentName, "document");
+			jsonContainer->encode(body, "body");
+		}
+	}
+
+	void decode(CoderContainer* container) {
+		if (container->type == CoderType::json) {
+			JSONDecodeContainer* jsonContainer = dynamic_cast<JSONDecodeContainer*>(container);
+			collectionName = jsonContainer->decode(string(), "collection");
+			documentName = jsonContainer->decode(string(), "document");
+			body = jsonContainer->decode(string(), "body");
+		}
+	}
+
+	DataRequest() {}
+};
+
+const vector<RequestType> DATA_REQUEST_TYPES = { RequestType::documentSet, RequestType::documentGet, RequestType::fieldSet, RequestType::fieldGet };
+#define DATA_REQUEST_TYPES_COUNT 4
+
+bool isDataRequest(Request* request) {
+	for (int i = 0; i < DATA_REQUEST_TYPES_COUNT; i++) {
+		if (DATA_REQUEST_TYPES[i] == request->type) {
+			return true;
+		}
+	}
+	return false;
+}
+
+struct SecurityRule {
+	function<bool(DataRequest*)> dataRule;
+
+	bool checkAccess(Request* request) {
+		if (isDataRequest(request)) {
+			DataRequest* dataRequest = dynamic_cast<DataRequest*>(request);
+			return dataRule(dataRequest);
+		}
+		return false;
+	}
 };
 
 typedef uWS::WebSocket<0, 1, ConnectionData>* WebSocket;
@@ -200,6 +265,8 @@ public:
 	vector<AuthorizationProvider*> supportedProviders;
 	ServerBehavior behavior;
 
+	SecurityRule rule;
+	
 	Collection* operator [](string name) {
 		for (int i = 0; i < collections.size(); i++) {
 			if (name == collections[i].name) {
@@ -210,18 +277,6 @@ public:
 	}
 
 	void read() {
-		string listPath = "collectionList.txt";
-		if (!fs::exists(listPath)) {
-			return;
-		}
-		ifstream list(listPath);
-		vector<Collection> newCollections;
-		while (!list.eof()) {
-			string collectionName;
-			list >> collectionName;
-			newCollections.push_back(Collection(this, collectionName));
-		}
-		collections = newCollections;
 		for (int i = 0; i < collections.size(); i++) {
 			collections[i].read();
 		}
@@ -231,23 +286,19 @@ public:
 		for (auto collection : collections) {
 			collection.save();
 		}
-		ofstream list("collectionList.txt");
-		for (auto collection : collections) {
-			list << collection.name << "\n";
-		}
 	}
 
 	void authorizeWithStatus(WebSocket ws, AuthorizationStatus status) {
 		ConnectionData* data = (ConnectionData*)ws->getUserData();
-		string respond = "A";
+		string respond = AUTH_PREFIX;
 		if (status == AuthorizationStatus::authorized) {
-			respond += 'S';
+			respond += AUTHORIZED_LOCALIZE;
 		}
 		else if (status == AuthorizationStatus::corruptedCredentials) {
-			respond += 'C';
+			respond += CORR_CRED_LOCALIZE;
 		}
 		else if (status == AuthorizationStatus::error) {
-			respond += 'E';
+			respond += AUTH_ERR_LOCALIZE;
 		}
 		ws->send(respond);
 		behavior.authorized(status);
@@ -268,15 +319,88 @@ public:
 		authorizeWithStatus(ws, AuthorizationStatus::corruptedCredentials);
 	}
 
-	void handleMessage(WebSocket ws, string_view message) {
-		char type = message[0];
-		string body;
-		for (int i = 1; i < message.length(); i++) {
-			body += message[i];
+	void handleDataRequest(WebSocket ws, DataRequest* request) {
+		string respond;
+		respond += REQUEST_PREFIX;
+		respond += DATA_REQUEST_PREFIX;
+		auto collection = operator[](request->collectionName);
+		if (collection == nullptr) {
+			ws->send(respond + DATA_REQUEST_FAILURE);
+			return;
 		}
-		switch (type) {
-		case 'A':
-			authorize(ws, body);
+		collection->createDocument(request->documentName);
+		auto doc = collection->operator[](request->documentName);
+		if (request->type == RequestType::documentGet) {
+			JSONEncoder encoder;
+			auto container = encoder.container();
+			container.encode(doc->fields);
+			respond += container.content;
+		}
+		if (request->type == RequestType::documentSet) {
+			JSONDecoder decoder;
+			auto container = decoder.container(request->body);
+			auto fields = container.decode(vector<Field>());
+			doc->fields = fields;
+			respond += DATA_SET_SUCCESSFUL;
+		}
+		ws->send(respond);
+	}
+
+	DataRequest lastDataRequest;
+	bool handlingRequest = false;
+
+	void handleRequest(WebSocket ws, Request* request) {
+		if (rule.checkAccess(request)) {
+			if (isDataRequest(request)) {
+				auto dataRequest = (DataRequest*) dynamic_cast<DataRequest*>(request);
+				handleDataRequest(ws, dataRequest);
+			}
+		}
+		else {
+			cout << "Access denied\n";
+		}
+		handlingRequest = false;
+	}
+
+	Request* generateRequest(WebSocket ws, string body) {
+		while (handlingRequest)
+			continue;
+		handlingRequest = true;
+		ConnectionData* data = (ConnectionData*)ws->getUserData();
+		JSONDecoder decoder;
+
+		if (body.find(DOCUMENT_GET_PREFIX) == 0) {
+			string encoded = body.substr(strlen(DOCUMENT_GET_PREFIX), body.length() - strlen(DOCUMENT_GET_PREFIX));
+			auto container = decoder.container(encoded);
+			auto dataResult = container.decode(DataRequest());
+			dataResult.connection = *data;
+			dataResult.type = RequestType::documentGet;
+			lastDataRequest = dataResult;
+			return &lastDataRequest;
+		}
+
+		if (body.find(DOCUMENT_SET_PREFIX) == 0) {
+			string encoded = body.substr(strlen(DOCUMENT_SET_PREFIX), body.length() - strlen(DOCUMENT_SET_PREFIX));
+			auto container = decoder.container(encoded);
+			auto dataResult = container.decode(DataRequest());
+			dataResult.connection = *data;
+			dataResult.type = RequestType::documentSet;
+			lastDataRequest = dataResult;
+			return &lastDataRequest;
+		}
+
+		DataRequest nullRequest;
+		return &nullRequest;
+	}
+
+	void handleMessage(WebSocket ws, string_view message) {
+		string wrappedMessage = string(message);
+		if (wrappedMessage.find(AUTH_PREFIX) == 0) {
+			authorize(ws, wrappedMessage.substr(strlen(AUTH_PREFIX), wrappedMessage.length() - strlen(AUTH_PREFIX)));
+		}
+		if (wrappedMessage.find(REQUEST_PREFIX) == 0) {
+			auto request = generateRequest(ws, wrappedMessage.substr(strlen(REQUEST_PREFIX), wrappedMessage.length() - strlen(REQUEST_PREFIX)));
+			handleRequest(ws, request);
 		}
 	}
 
@@ -314,6 +438,9 @@ string Collection::collectionUrl() {
 }
 
 void Collection::save() {
+	if (name.empty()) {
+		return;
+	}
 	string url = collectionUrl();
 	url.erase(url.end() - 1);
 	fs::create_directory(url);
@@ -323,7 +450,7 @@ void Collection::save() {
 }
 
 string Document::documentUrl() {
-	return collection->collectionUrl() + "/" + name + ".document";
+	return collection->collectionUrl() + "/" + name + "." + DOCUMENT_EXTENSION;
 }
 
 void Document::read() {

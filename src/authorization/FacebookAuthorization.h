@@ -3,6 +3,9 @@
 
 #include "Authorization.h"
 #include <string>
+#include <iostream>
+
+#define FACEBOOK_AUTH_PREFIX "F"
 
 using namespace std;
 
@@ -46,7 +49,9 @@ public:
 		auto response = cli.Post("/debug_token", params);
 
 		if (response == nullptr) {
+			#ifdef AUTH_DEBUG
 			cout << "There is no response for request\n";
+			#endif
 		}
 		else {
 			if (response->status == 200) {
@@ -55,11 +60,13 @@ public:
 				const auto decoded = container.decode(FacebookResponse(), "data");
 				if (to_string(decoded.app_id) == app_id) {
 					result.status = AuthorizationStatus::authorized;
-					result.userId = "F" + to_string(decoded.user_id);
+					result.userId = FACEBOOK_AUTH_PREFIX + to_string(decoded.user_id);
 				}
 			}
 			else {
+				#ifdef AUTH_DEBUG
 				cout << "Request returned " << response->status << "\n";
+				#endif
 			}
 		}
 
@@ -67,8 +74,7 @@ public:
 	}
 
 	bool isValid(string body) {
-		char type = body[0];
-		return type == 'F';
+		return body.find(FACEBOOK_AUTH_PREFIX) == 0;
 	}
 
 	FacebookProvider(string access_token, string app_id) {

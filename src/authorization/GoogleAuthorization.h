@@ -7,8 +7,9 @@
 #include "Authorization.h"
 #include <string>
 #include <iostream>
-#define GOOGLE_AUTH_SCRIPT_NAME "googleAuth"
-#define GOOGLE_AUTH_FUNC "authorize"
+
+#define GOOGLE_AUTH_PREFIX "G"
+
 using namespace std;
 
 class GoogleResponse : public Codable {
@@ -55,7 +56,9 @@ public:
 		auto response = cli.Post("/tokeninfo", params);
 		
 		if (response == nullptr) {
+			#ifdef AUTH_DEBUG
 			cout << "There is no response for request\n";
+			#endif
 		}
 		else {
 			if (response->status == 200) {
@@ -64,11 +67,13 @@ public:
 				const auto decoded = container.decode(GoogleResponse());
 				if (decoded.aud == client_id) {
 					result.status = AuthorizationStatus::authorized;
-					result.userId = "G" + decoded.sub;
+					result.userId = GOOGLE_AUTH_PREFIX + decoded.sub;
 				}
 			}
 			else {
+				#ifdef AUTH_DEBUG
 				cout << "Request returned " << response->status << "\n";
+				#endif
 			}
 		}
 
@@ -76,8 +81,7 @@ public:
 	}
 
 	bool isValid(string body) {
-		char type = body[0];
-		return type == 'G';
+		return body.find(GOOGLE_AUTH_PREFIX) == 0;
 	}
 
 	GoogleProvider(string client_id) {
