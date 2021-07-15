@@ -21,8 +21,11 @@
 #define REQUEST_PREFIX "R"
 #define DOCUMENT_GET_PREFIX "DG"
 #define DOCUMENT_SET_PREFIX "DS"
+#define FIELD_GET_PREFIX "FG"
+#define FIELD_SET_PREFIX "FS"
 #define DATA_REQUEST_PREFIX "DR"
 #define DATA_SET_SUCCESSFUL "DSS"
+#define FIELD_SET_SUCCESSFUL "FSS"
 #define DATA_REQUEST_FAILURE "DRF"
 #define DOCUMENT_EXTENSION "document"
 
@@ -42,6 +45,15 @@ public:
 	double numValue;
 	string strValue;
 	vector<Field> children;
+
+	Field* operator [](string key) {
+		for (int i = 0; i < children.size(); i++) {
+			if (children[i].name == key) {
+				return &children[i];
+			}
+		}
+		return NULL;
+	}
 
 	void addChild(Field child) {
 		if (type == FieldType::array) {
@@ -171,7 +183,8 @@ enum class RequestType {
 	documentSet,
 	documentGet,
 	fieldSet,
-	fieldGet
+	fieldGet,
+	undefined
 };
 
 struct ConnectionData {
@@ -213,6 +226,28 @@ public:
 	}
 
 	DataRequest() {}
+};
+
+class FieldRequest : public Codable {
+public:
+	string value;
+	vector<string> path;
+
+	void encode(CoderContainer* container) {
+		if (container->type == CoderType::json) {
+			JSONEncodeContainer* jsonContainer = dynamic_cast<JSONEncodeContainer*>(container);
+			jsonContainer->encode(value, "value");
+			jsonContainer->encode(path, "path");
+		}
+	}
+
+	void decode(CoderContainer* container) {
+		if (container->type == CoderType::json) {
+			JSONDecodeContainer* jsonContainer = dynamic_cast<JSONDecodeContainer*>(container);
+			value = jsonContainer->decode(string(), "value");
+			path = jsonContainer->decode(vector<string>(), "path");
+		}
+	}
 };
 
 const vector<RequestType> DATA_REQUEST_TYPES = { RequestType::documentSet, RequestType::documentGet, RequestType::fieldSet, RequestType::fieldGet };
@@ -343,6 +378,55 @@ public:
 			doc->fields = fields;
 			respond += DATA_SET_SUCCESSFUL;
 		}
+		if (request->type == RequestType::fieldGet) {
+			JSONEncoder encoder;
+			JSONDecoder decoder;
+			auto decodeContainer = decoder.container(request->body);
+			auto fieldRequest = decodeContainer.decode(FieldRequest());
+			if (!fieldRequest.path.empty()) {
+				Field* lastField = nullptr;
+				for (int i = 0; i < doc->fields.size(); i++) {
+					if (doc->fields[i].name == fieldRequest.path[0]) {
+						lastField = &doc->fields[i];
+					}
+				}
+				for (int i = 1; i < fieldRequest.path.size(); i++) {
+					if (lastField != nullptr) {
+						lastField = lastField->operator[](fieldRequest.path[i]);
+					}
+				}
+				if (lastField != nullptr) {
+					auto encodeContainer = encoder.container();
+					encodeContainer.encode(*lastField);
+					respond += encodeContainer.content;
+				}
+			}
+		}
+		if (request->type == RequestType::fieldSet) {
+			JSONDecoder decoder;
+			auto container = decoder.container(request->body);
+			auto fieldRequest = container.decode(FieldRequest());
+			JSONDecoder valueDecoder;
+			auto valueContainer = valueDecoder.container(fieldRequest.value);
+			auto fieldValue = container.decode(Field());
+			if (!fieldRequest.path.empty()) {
+				Field* lastField = nullptr;
+				for (int i = 0; i < doc->fields.size(); i++) {
+					if (doc->fields[i].name == fieldRequest.path[0]) {
+						lastField = &doc->fields[i];
+					}
+				}
+				for (int i = 1; i < fieldRequest.path.size(); i++) {
+					if (lastField != nullptr) {
+						lastField = lastField->operator[](fieldRequest.path[i]);
+					}
+				}
+				if (lastField != nullptr) {
+					*lastField = fieldValue;
+				}
+			}
+			respond += FIELD_SET_SUCCESSFUL;
+		}
 		ws->send(respond);
 	}
 
@@ -366,31 +450,47 @@ public:
 		while (handlingRequest)
 			continue;
 		handlingRequest = true;
+
+		RequestType requestType = RequestType::undefined;
+
 		ConnectionData* data = (ConnectionData*)ws->getUserData();
 		JSONDecoder decoder;
+		unsigned prefixSize;
 
 		if (body.find(DOCUMENT_GET_PREFIX) == 0) {
-			string encoded = body.substr(strlen(DOCUMENT_GET_PREFIX), body.length() - strlen(DOCUMENT_GET_PREFIX));
-			auto container = decoder.container(encoded);
-			auto dataResult = container.decode(DataRequest());
-			dataResult.connection = *data;
-			dataResult.type = RequestType::documentGet;
-			lastDataRequest = dataResult;
-			return &lastDataRequest;
+			requestType = RequestType::documentGet;
+			prefixSize = strlen(DOCUMENT_GET_PREFIX);
 		}
 
 		if (body.find(DOCUMENT_SET_PREFIX) == 0) {
-			string encoded = body.substr(strlen(DOCUMENT_SET_PREFIX), body.length() - strlen(DOCUMENT_SET_PREFIX));
+			requestType = RequestType::documentSet;
+			prefixSize = strlen(DOCUMENT_SET_PREFIX);
+		}
+
+		if (body.find(FIELD_GET_PREFIX) == 0) {
+			requestType = RequestType::fieldGet;
+			prefixSize = strlen(FIELD_GET_PREFIX);
+		}
+
+		if (body.find(FIELD_SET_PREFIX) == 0) {
+			requestType = RequestType::fieldSet;
+			prefixSize = strlen(FIELD_SET_PREFIX);
+		}
+
+		Request tempRequest;
+		tempRequest.type = requestType;
+
+		if (isDataRequest(&tempRequest)) {
+			string encoded = body.substr(prefixSize, body.length() - prefixSize);
 			auto container = decoder.container(encoded);
 			auto dataResult = container.decode(DataRequest());
 			dataResult.connection = *data;
-			dataResult.type = RequestType::documentSet;
+			dataResult.type = requestType;
 			lastDataRequest = dataResult;
 			return &lastDataRequest;
 		}
 
-		DataRequest nullRequest;
-		return &nullRequest;
+		return &tempRequest;
 	}
 
 	void handleMessage(WebSocket ws, string_view message) {
