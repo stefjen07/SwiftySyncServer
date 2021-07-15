@@ -30,7 +30,7 @@ namespace fs = std::experimental::filesystem;
 using namespace std;
 
 enum class FieldType {
-	array,
+	array=0,
 	number,
 	string
 };
@@ -52,7 +52,7 @@ public:
 	void encode(CoderContainer* container) {
 		if (container->type == CoderType::json) {
 			JSONEncodeContainer* jsonContainer = dynamic_cast<JSONEncodeContainer*>(container);
-			jsonContainer->encode(type, name + "type");
+			jsonContainer->encode(int(type), name + "type");
 			if (type == FieldType::array) {
 				jsonContainer->encode(children, name);
 			}
