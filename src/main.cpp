@@ -3,6 +3,7 @@
 #include "Authorization.h"
 #include "GoogleAuthorization.h"
 #include "FacebookAuthorization.h"
+#include "SwiftySyncStorage.h"
 
 #ifndef GOOGLE_CLIENT_ID
 #define GOOGLE_CLIENT_ID "your-client-id"

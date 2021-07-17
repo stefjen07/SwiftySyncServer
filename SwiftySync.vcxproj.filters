@@ -18,10 +18,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CodablePP\src\Codable.cpp">
+    <ClCompile Include="SwiftySyncStorage\CodablePP\src\Codable.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="CodablePP\src\JSON.cpp">
+    <ClCompile Include="SwiftySyncStorage\CodablePP\src\JSON.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="src\SwiftySync.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="src\Keys.h">
+    <ClInclude Include="src\Usage.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

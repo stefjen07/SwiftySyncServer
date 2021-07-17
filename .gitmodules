@@ -1,7 +1,3 @@
-[submodule "CodablePP"]
-	path = CodablePP
-	url = https://github.com/stefjen07/CodablePP.git
-	branch = main
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git
@@ -11,3 +7,7 @@
 [submodule "timercpp"]
 	path = timercpp
 	url = https://github.com/99x/timercpp.git
+[submodule "SwiftySyncStorage"]
+	path = SwiftySyncStorage
+	url = https://github.com/stefjen07/SwiftySyncStorage.git
+	branch = main
