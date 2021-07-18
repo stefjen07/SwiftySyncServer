@@ -26,15 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\authorization\Authorization.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="src\authorization\FacebookAuthorization.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="src\authorization\GoogleAuthorization.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helper.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
