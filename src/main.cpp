@@ -1,9 +1,9 @@
-#include "SwiftySync.h"
+#include <SwiftySync.h>
 #include <iostream>
-#include "Authorization.h"
-#include "GoogleAuthorization.h"
-#include "FacebookAuthorization.h"
-#include "SwiftySyncStorage.h"
+#include <Authorization.h>
+#include <GoogleAuthorization.h>
+#include <FacebookAuthorization.h>
+#include <SwiftySyncStorage.h>
 
 #ifndef GOOGLE_CLIENT_ID
 #define GOOGLE_CLIENT_ID "your-client-id"
@@ -92,7 +92,7 @@ int main() {
 			if (requestCollection == nullptr)
 				return false;
 			if (requestCollection == usersCollection) {
-				return requestCollection->isDocumentNameTaken(request->documentName) && request->documentName == request->connection.userId;
+				return requestCollection->isDocumentNameTaken(request->documentName) && request->documentName == request->connection->userId;
 			}
 			if (requestCollection == tripsCollection || requestCollection == privilegesCollection) {
 				if (request->type == RequestType::documentGet) {
@@ -103,7 +103,7 @@ int main() {
 					auto members = privilegesDoc->operator[]("members");
 					if (members != NULL) {
 						for (auto child : members->children) {
-							if (child.strValue == request->connection.userId) {
+							if (child.strValue == request->connection->userId) {
 								return true;
 							}
 						}
@@ -118,7 +118,7 @@ int main() {
 						if (privilegesDoc != NULL) {
 							auto admin = privilegesDoc->operator[]("admin");
 							if (admin != NULL) {
-								if (admin->strValue == request->connection.userId) {
+								if (admin->strValue == request->connection->userId) {
 									return true;
 								}
 							}

@@ -9,6 +9,7 @@
 #include <JSON.h>
 #include <Authorization.h>
 #include <Helper.h>
+#include <Request.h>
 #include <vector>
 #include <string>
 #include <functional>
@@ -20,79 +21,11 @@
 
 using namespace std;
 
-enum class RequestType {
-	documentSet,
-	documentGet,
-	fieldSet,
-	fieldGet,
-	undefined
-};
-
-struct ConnectionData {
+class ConnectionData {
+public:
 	string connectionId;
 	string userId;
 };
-
-class Request {
-public:
-	RequestType type;
-	ConnectionData connection;
-	virtual void nothing() {};
-};
-
-class DataRequest : public Request, public Codable {
-public:
-	string collectionName;
-	string documentName;
-	string body;
-
-	void nothing() {}
-
-	void encode(CoderContainer* container) {
-		if (container->type == CoderType::json) {
-			JSONEncodeContainer* jsonContainer = dynamic_cast<JSONEncodeContainer*>(container);
-			jsonContainer->encode(collectionName, "collection");
-			jsonContainer->encode(documentName, "document");
-			jsonContainer->encode(body, "body");
-		}
-	}
-
-	void decode(CoderContainer* container) {
-		if (container->type == CoderType::json) {
-			JSONDecodeContainer* jsonContainer = dynamic_cast<JSONDecodeContainer*>(container);
-			collectionName = jsonContainer->decode(string(), "collection");
-			documentName = jsonContainer->decode(string(), "document");
-			body = jsonContainer->decode(string(), "body");
-		}
-	}
-
-	DataRequest() {}
-};
-
-class FieldRequest : public Codable {
-public:
-	string value;
-	vector<string> path;
-
-	void encode(CoderContainer* container) {
-		if (container->type == CoderType::json) {
-			JSONEncodeContainer* jsonContainer = dynamic_cast<JSONEncodeContainer*>(container);
-			jsonContainer->encode(value, "value");
-			jsonContainer->encode(path, "path");
-		}
-	}
-
-	void decode(CoderContainer* container) {
-		if (container->type == CoderType::json) {
-			JSONDecodeContainer* jsonContainer = dynamic_cast<JSONDecodeContainer*>(container);
-			value = jsonContainer->decode(string(), "value");
-			path = jsonContainer->decode(vector<string>(), "path");
-		}
-	}
-};
-
-const vector<RequestType> DATA_REQUEST_TYPES = { RequestType::documentSet, RequestType::documentGet, RequestType::fieldSet, RequestType::fieldGet };
-#define DATA_REQUEST_TYPES_COUNT 4
 
 bool isDataRequest(Request* request) {
 	for (int i = 0; i < DATA_REQUEST_TYPES_COUNT; i++) {
@@ -325,7 +258,7 @@ public:
 			string encoded = body.substr(prefixSize, body.length() - prefixSize);
 			auto container = decoder.container(encoded);
 			auto dataResult = container.decode(DataRequest());
-			dataResult.connection = *data;
+			dataResult.connection = data;
 			dataResult.type = requestType;
 			lastDataRequest = dataResult;
 			return &lastDataRequest;
@@ -335,9 +268,14 @@ public:
 	}
 
 	void handleMessage(WebSocket ws, string_view message) {
+		ConnectionData* data = (ConnectionData*)ws->getUserData();
 		string wrappedMessage = string(message);
 		if (wrappedMessage.find(AUTH_PREFIX) == 0) {
 			authorize(ws, wrappedMessage.substr(strlen(AUTH_PREFIX), wrappedMessage.length() - strlen(AUTH_PREFIX)));
+		}
+		else if (data->userId == "") {
+			ws->send(string(AUTH_PREFIX) + string(AUTH_ERR_LOCALIZE));
+			return;
 		}
 		if (wrappedMessage.find(REQUEST_PREFIX) == 0) {
 			auto request = generateRequest(ws, wrappedMessage.substr(strlen(REQUEST_PREFIX), wrappedMessage.length() - strlen(REQUEST_PREFIX)));
