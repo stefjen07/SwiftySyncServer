@@ -132,6 +132,7 @@ public:
 		string respond;
 		respond += REQUEST_PREFIX;
 		respond += DATA_REQUEST_PREFIX;
+		respond += request->id;
 		auto collection = operator[](request->collectionName);
 		if (collection == nullptr) {
 			ws->send(respond + DATA_REQUEST_FAILURE);

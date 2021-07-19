@@ -5,6 +5,8 @@
 #include <FacebookAuthorization.h>
 #include <SwiftySyncStorage.h>
 
+//#define CHECK_FOR_PRIVILEGES
+
 #ifndef GOOGLE_CLIENT_ID
 #define GOOGLE_CLIENT_ID "your-client-id"
 #endif
@@ -82,6 +84,7 @@ int main() {
 	};
 	server.rule = {
 		.dataRule = [usersCollection, tripsCollection, privilegesCollection](DataRequest* request) {
+			return true;
 			Collection* requestCollection = nullptr;
 			if (request->collectionName == "users")
 				requestCollection = usersCollection;
@@ -99,6 +102,9 @@ int main() {
 					if (!tripsCollection->isDocumentNameTaken(request->documentName) || !privilegesCollection->isDocumentNameTaken(request->documentName)) {
 						return false;
 					}
+					#ifndef CHECK_FOR_PRIVILEGES
+					return true;
+					#endif
 					auto privilegesDoc = privilegesCollection->operator[](request->documentName);
 					auto members = privilegesDoc->operator[]("members");
 					if (members != NULL) {
@@ -114,6 +120,9 @@ int main() {
 						return true;
 					}
 					else {
+						#ifndef CHECK_FOR_PRIVILEGES
+						return true;
+						#endif
 						auto privilegesDoc = privilegesCollection->operator[](request->documentName);
 						if (privilegesDoc != NULL) {
 							auto admin = privilegesDoc->operator[]("admin");
