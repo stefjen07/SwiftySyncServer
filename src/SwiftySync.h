@@ -151,6 +151,7 @@ public:
 			auto fields = container.decode(vector<Field>());
 			doc->fields = fields;
 			respond += DATA_SET_SUCCESSFUL;
+			doc->save();
 		}
 		if (request->type == RequestType::fieldGet) {
 			JSONEncoder encoder;
@@ -200,6 +201,7 @@ public:
 				}
 			}
 			respond += FIELD_SET_SUCCESSFUL;
+			doc->save();
 		}
 		ws->send(respond);
 	}
@@ -208,21 +210,20 @@ public:
 	bool handlingRequest = false;
 
 	void handleRequest(WebSocket ws, Request* request) {
-		if (rule.checkAccess(request)) {
-			if (isDataRequest(request)) {
+		if (isDataRequest(request)) {
+			if (rule.checkAccess(request)) {
 				auto dataRequest = (DataRequest*) dynamic_cast<DataRequest*>(request);
 				handleDataRequest(ws, dataRequest);
 			}
+			else {
+				cout << "Access denied\n";
+			}
+			handlingRequest = false;
 		}
-		else {
-			cout << "Access denied\n";
-		}
-		handlingRequest = false;
 	}
 
 	Request* generateRequest(WebSocket ws, string body) {
-		while (handlingRequest)
-			continue;
+		while (handlingRequest);
 		handlingRequest = true;
 
 		RequestType requestType = RequestType::undefined;
