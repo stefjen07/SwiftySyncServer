@@ -150,7 +150,10 @@ int main() {
 		.update = [server]() {
 			cout << "Everything is OK\n";
 		},
-		.updateInterval = 10000
+		.updateInterval = 10000,
+		.key_filename = "certificate-private-key.pem",
+		.cert_filename = "certificate.pem",
+		.passphrase = "TEST"
 	});
 	return 0;
 }

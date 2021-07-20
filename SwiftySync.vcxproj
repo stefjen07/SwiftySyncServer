@@ -109,7 +109,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +149,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -170,7 +170,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -184,13 +184,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="SwiftySyncStorage\CodablePP\src\Codable.cpp" />
-    <ClCompile Include="SwiftySyncStorage\CodablePP\src\JSON.cpp" />
+    <ClCompile Include="SwiftySyncStorage\CodablePP\JSON.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Usage.h" />
     <ClInclude Include="src\Helper.h" />
     <ClInclude Include="src\SwiftySync.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="certificate-private-key.pem">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="certificate.pem">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

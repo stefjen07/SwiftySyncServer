@@ -18,10 +18,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="SwiftySyncStorage\CodablePP\src\Codable.cpp">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
-    <ClCompile Include="SwiftySyncStorage\CodablePP\src\JSON.cpp">
+    <ClCompile Include="SwiftySyncStorage\CodablePP\JSON.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,5 +32,13 @@
     <ClInclude Include="src\Usage.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="certificate.pem">
+      <Filter>Файлы ресурсов</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="certificate-private-key.pem">
+      <Filter>Файлы ресурсов</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

@@ -1,8 +1,7 @@
 #ifndef SWIFTYSYNC_H
 #define SWIFTYSYNC_H
 
-#define SERVER
-
+#include <Usage.h>
 #include <uwebsockets/App.h>
 #include <SwiftySyncStorage.h>
 #include <Codable.h>
@@ -48,7 +47,12 @@ struct SecurityRule {
 	}
 };
 
+
+#ifdef SSL_SERVER
+typedef uWS::WebSocket<1, 1, ConnectionData>* WebSocket;
+#else
 typedef uWS::WebSocket<0, 1, ConnectionData>* WebSocket;
+#endif
 
 struct ServerBehavior {
 	function<void(bool)> completion = [](auto result) {};
@@ -62,6 +66,9 @@ struct RunBehavior {
 	function<void()> update = []() {};
 
 	unsigned updateInterval = 1000;
+	string key_filename;
+	string cert_filename;
+	string passphrase;
 };
 
 class SwiftyServer {
@@ -291,7 +298,20 @@ public:
 		save();
 		Timer t = Timer();
 		t.setInterval(runBehavior.update, runBehavior.updateInterval);
-		uWS::App().ws<ConnectionData>("/*", {
+#ifdef SSL_SERVER
+		auto key_file = runBehavior.key_filename.c_str();
+		auto cert_file = runBehavior.cert_filename.c_str();
+		auto phrase = runBehavior.passphrase.c_str();
+		auto app = uWS::SSLApp({
+			.key_file_name = key_file,
+			.cert_file_name = cert_file,
+			.passphrase = phrase
+		});
+		cout << "Using SSL\n";
+#else
+		auto app = uWS::App();
+#endif
+		app.ws<ConnectionData>("/*", {
 			.open = [this](auto* ws) {
 				ConnectionData* data = (ConnectionData*)ws->getUserData();
 				data->connectionId = create_uuid();
