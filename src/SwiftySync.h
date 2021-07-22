@@ -228,7 +228,10 @@ public:
 				JSONEncoder encoder;
 				auto container = encoder.container();
 				container.encode(output);
-				ws->send(container.content);
+				string respond = REQUEST_PREFIX;
+				respond += FUNCTION_REQUEST_PREFIX;
+				respond += container.content;
+				ws->send(respond);
 				return;
 			}
 		}
