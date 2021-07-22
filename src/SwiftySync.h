@@ -230,6 +230,7 @@ public:
 				container.encode(output);
 				string respond = REQUEST_PREFIX;
 				respond += FUNCTION_REQUEST_PREFIX;
+				respond += request->id;
 				respond += container.content;
 				ws->send(respond);
 				return;
