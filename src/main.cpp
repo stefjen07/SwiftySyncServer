@@ -4,6 +4,7 @@
 #include <GoogleAuthorization.h>
 #include <FacebookAuthorization.h>
 #include <SwiftySyncStorage.h>
+#include <Functions.h>
 
 //#define CHECK_FOR_PRIVILEGES
 
@@ -76,6 +77,13 @@ int main() {
 		castedFacebookProvider,
 		castedDebugProvider
 	};
+
+	server.functions = {
+		Function("nothing", [](DataUnit input) {
+			return input;
+		})
+	};
+
 	Collection* usersCollection = server["users"];
 	Collection* tripsCollection = server["trips"];
 	Collection* privilegesCollection = server["privileges"];
@@ -136,6 +144,9 @@ int main() {
 				}
 			}
 			return false;
+		},
+		.functionRule = [](FunctionRequest* request) {
+			return true;
 		}
 	};
 	server.run({

@@ -188,7 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Usage.h" />
-    <ClInclude Include="src\Helper.h" />
     <ClInclude Include="src\SwiftySync.h" />
   </ItemGroup>
   <ItemGroup>

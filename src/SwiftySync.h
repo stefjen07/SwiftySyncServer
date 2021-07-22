@@ -9,6 +9,7 @@
 #include <Authorization.h>
 #include <Helper.h>
 #include <Request.h>
+#include <Functions.h>
 #include <vector>
 #include <string>
 #include <functional>
@@ -37,11 +38,16 @@ bool isDataRequest(Request* request) {
 
 struct SecurityRule {
 	function<bool(DataRequest*)> dataRule;
+	function<bool(FunctionRequest*)> functionRule;
 
 	bool checkAccess(Request* request) {
 		if (isDataRequest(request)) {
 			DataRequest* dataRequest = dynamic_cast<DataRequest*>(request);
 			return dataRule(dataRequest);
+		}
+		else if (request->type == RequestType::function) {
+			FunctionRequest* functionRequest = dynamic_cast<FunctionRequest*>(request);
+			return functionRule(functionRequest);
 		}
 		return false;
 	}
@@ -78,6 +84,7 @@ public:
 	string serverUrl = "";
 
 	vector<Collection> collections;
+	vector<Function> functions;
 	vector<AuthorizationProvider*> supportedProviders;
 	ServerBehavior behavior;
 
@@ -180,7 +187,7 @@ public:
 				}
 				if (lastField != nullptr) {
 					auto encodeContainer = encoder.container();
-					encodeContainer.encode(*lastField);
+					//encodeContainer.encode(*lastField);
 					respond += encodeContainer.content;
 				}
 			}
@@ -214,7 +221,21 @@ public:
 		ws->send(respond);
 	}
 
+	void handleFunctionRequest(WebSocket ws, FunctionRequest* request) {
+		for (int i = 0; i < functions.size(); i++) {
+			if (functions[i].name == request->name) {
+				auto output = functions[i][request->inputData];
+				JSONEncoder encoder;
+				auto container = encoder.container();
+				container.encode(output);
+				ws->send(container.content);
+				return;
+			}
+		}
+	}
+
 	DataRequest lastDataRequest;
+	FunctionRequest lastFunctionRequest;
 	bool handlingRequest = false;
 
 	void handleRequest(WebSocket ws, Request* request) {
@@ -222,6 +243,16 @@ public:
 			if (rule.checkAccess(request)) {
 				auto dataRequest = (DataRequest*) dynamic_cast<DataRequest*>(request);
 				handleDataRequest(ws, dataRequest);
+			}
+			else {
+				cout << "Access denied\n";
+			}
+			handlingRequest = false;
+		}
+		else if (request->type == RequestType::function) {
+			if (rule.checkAccess(request)) {
+				auto functionRequest = (FunctionRequest*) dynamic_cast<FunctionRequest*>(request);
+				handleFunctionRequest(ws, functionRequest);
 			}
 			else {
 				cout << "Access denied\n";
@@ -258,6 +289,18 @@ public:
 		if (body.find(FIELD_SET_PREFIX) == 0) {
 			requestType = RequestType::fieldSet;
 			prefixSize = strlen(FIELD_SET_PREFIX);
+		}
+
+		if (body.find(FUNCTION_REQUEST_PREFIX) == 0) {
+			requestType = RequestType::function;
+			prefixSize = strlen(FUNCTION_REQUEST_PREFIX);
+			string encoded = body.substr(prefixSize, body.length() - prefixSize);
+			auto container = decoder.container(encoded);
+			auto functionResult = container.decode(FunctionRequest());
+			functionResult.connection = data;
+			functionResult.type = RequestType::function;
+			lastFunctionRequest = functionResult;
+			return &lastFunctionRequest;
 		}
 
 		Request tempRequest;

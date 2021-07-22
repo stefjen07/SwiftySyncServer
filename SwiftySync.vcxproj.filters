@@ -23,9 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Helper.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="src\SwiftySync.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
