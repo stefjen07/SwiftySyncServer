@@ -2,12 +2,11 @@
 #define SWIFTYSYNC_H
 
 #include <Usage.h>
-#include <uwebsockets/App.h>
 #include <SwiftySyncStorage.h>
 #include <Codable.h>
 #include <JSON.h>
 #include <Authorization.h>
-#include <Helper.h>
+#include <UUID.h>
 #include <Request.h>
 #include <Functions.h>
 #include <vector>
@@ -18,6 +17,7 @@
 #include <iostream>
 #include <timercpp.h>
 #include <algorithm>
+#include <uwebsockets/App.h>
 
 using namespace std;
 

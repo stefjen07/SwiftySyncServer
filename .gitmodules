@@ -12,3 +12,7 @@
 	path = SwiftySyncAuthorization
 	url = https://github.com/stefjen07/SwiftySyncAuthorization.git
 	branch = main
+[submodule "SwiftySyncCommon"]
+	path = SwiftySyncCommon
+	url = https://github.com/stefjen07/SwiftySyncCommon.git
+	branch = main
