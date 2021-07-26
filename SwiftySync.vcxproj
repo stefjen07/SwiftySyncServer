@@ -109,7 +109,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/SwiftySyncCommon;$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/SwiftySyncCommon;$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +149,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/SwiftySyncCommon;$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -170,7 +170,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/SwiftySyncCommon;$(ProjectDir)src;$(ProjectDir)SwiftySyncAuthorization/cpp-httplib;$(ProjectDir)SwiftySyncAuthorization;$(ProjectDir)SwiftySyncStorage;$(ProjectDir)timercpp;$(ProjectDir)cpp-httplib;$(ProjectDir)src\authorization;$(ProjectDir)SwiftySyncStorage\CodablePP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

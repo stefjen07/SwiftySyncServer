@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/CodablePP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/CodablePP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/cpp-httplib" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/vcpkg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncCommon" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncCommon/CodablePP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncStorage" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncStorage/CodablePP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon/CodablePP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/timercpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vcpkg" vcs="Git" />
   </component>
 </project>
