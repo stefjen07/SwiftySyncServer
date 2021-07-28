@@ -1,4 +1,7 @@
+#define SERVER
 #include "SwiftySyncServer.h"
+
+using namespace std;
 
 bool SecurityRule::checkAccess(Request* request) {
     if (isDataRequest(request)) {

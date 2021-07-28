@@ -1,6 +1,8 @@
 #ifndef SWIFTYSYNC_H
 #define SWIFTYSYNC_H
 
+#define SERVER
+
 #include <Usage.h>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <uwebsockets/App.h>

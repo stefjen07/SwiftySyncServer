@@ -1,4 +1,4 @@
-#include <SwiftySync.h>
+#include "SwiftySyncServer.h"
 #include <iostream>
 #include <Authorization.h>
 #include <GoogleAuthorization.h>
