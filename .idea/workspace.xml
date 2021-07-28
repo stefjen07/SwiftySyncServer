@@ -26,9 +26,8 @@
     <list default="true" id="1ddadb5d-ce80-49ac-96c3-f80d256ce738" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncServer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncServer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncServer.h" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncServer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SwiftySyncAuthorization/vcpkg" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncAuthorization/vcpkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,11 +63,6 @@
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RunManager" selected="CMake Application.test_server">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Codable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="Codable" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -90,6 +84,11 @@
       </method>
     </configuration>
     <configuration name="SwiftySyncStorage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="SwiftySyncStorage" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -147,7 +146,8 @@
       <updated>1627327495267</updated>
       <workItem from="1627327499023" duration="695000" />
       <workItem from="1627329319040" duration="314000" />
-      <workItem from="1627491691810" duration="7092000" />
+      <workItem from="1627491691810" duration="7413000" />
+      <workItem from="1627500050118" duration="258000" />
     </task>
     <servers />
   </component>
