@@ -1,7 +1,18 @@
 #define SERVER
 #include "SwiftySyncServer.h"
+#include "Codable.h"
+#include "JSON.h"
 
 using namespace std;
+
+bool isDataRequest(Request* request) {
+    for (int i = 0; i < DATA_REQUEST_TYPES_COUNT; i++) {
+        if (DATA_REQUEST_TYPES[i] == request->type) {
+            return true;
+        }
+    }
+    return false;
+}
 
 bool SecurityRule::checkAccess(Request* request) {
     if (isDataRequest(request)) {
@@ -293,4 +304,8 @@ void SwiftyServer::run(RunBehavior runBehavior) {
         behavior.completion(token);
         runBehavior.afterStart();
     }).run();
+}
+
+string Collection::collectionUrl() {
+    return server->serverUrl + name + "/";
 }

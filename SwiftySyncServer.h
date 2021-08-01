@@ -34,14 +34,7 @@ public:
 	string userId;
 };
 
-bool isDataRequest(Request* request) {
-	for (int i = 0; i < DATA_REQUEST_TYPES_COUNT; i++) {
-		if (DATA_REQUEST_TYPES[i] == request->type) {
-			return true;
-		}
-	}
-	return false;
-}
+bool isDataRequest(Request* request);
 
 struct SecurityRule {
 	function<bool(DataRequest*)> dataRule;
@@ -119,9 +112,5 @@ public:
 		this->behavior = behavior;
 	}
 };
-
-string Collection::collectionUrl() {
-	return server->serverUrl + name + "/";
-}
 
 #endif
