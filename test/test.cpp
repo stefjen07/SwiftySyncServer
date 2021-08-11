@@ -1,3 +1,6 @@
+#define SERVER
+#define SSL_SERVER
+
 #include <SwiftySyncServer.h>
 #include <iostream>
 #include <Authorization.h>

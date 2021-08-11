@@ -1,9 +1,0 @@
-{
-  "name": "swifty-sync-server",
-  "version-string": "1.0.0",
-  "description": "",
-  "dependencies": [
-    "uwebsockets",
-    "openssl"
-  ]
-}

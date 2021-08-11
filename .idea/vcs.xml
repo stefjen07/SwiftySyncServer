@@ -5,6 +5,7 @@
     <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/CodablePP" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/cpp-httplib" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/openssl-cmake" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncAuthorization/vcpkg" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncCommon" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncCommon/CodablePP" vcs="Git" />

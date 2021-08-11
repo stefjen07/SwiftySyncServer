@@ -5,23 +5,26 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_compile_definitions(SERVER)
 
-find_package(OpenSSL REQUIRED)
-find_package(ZLIB REQUIRED)
-
 add_subdirectory(SwiftySyncAuthorization)
 add_subdirectory(SwiftySyncCommon)
 add_subdirectory(SwiftySyncStorage)
 
-find_path(WS_INCLUDE_DIR uv.h)
-find_library(UV_LIBRARY libuv)
-find_library(US_LIBRARY uSockets)
-find_library(ZLIB_LIBRARY z)
+set(OPENSSL_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/openssl-cmake/include)
+set(OPENSSL_LIBRARIES ssl crypto)
 
+set(UWEBSOCKETS_PATH ${CMAKE_CURRENT_BINARY_DIR}/uWebSockets_build)
+
+message("Source dir is ${CMAKE_SOURCE_DIR}")
+
+add_custom_target(uWebSockets WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/uWebSockets" COMMAND make)
+
+include_directories(include)
 include_directories(timercpp)
 
-add_library(SwiftySyncServer SwiftySyncServer.cpp SwiftySyncServer.h)
-target_link_libraries(SwiftySyncServer ${UV_LIBRARY} ${US_LIBRARY} ${ZLIB_LIBRARIES} Codable SwiftySyncAuthorization SwiftySyncCommon SwiftySyncStorage ${OPENSSL_LIBRARIES})
-target_include_directories(SwiftySyncServer PUBLIC ${OPENSSL_INCLUDE_DIR} PUBLIC ${ZLIB_INCLUDE_DIRS} PUBLIC "/" PUBLIC SwiftySyncCommon/CodablePP PUBLIC SwiftySyncAuthorization PUBLIC SwiftySyncCommon PUBLIC SwiftySyncStorage PUBLIC ${WS_INCLUDE_DIR})
+add_library(SwiftySyncServer src/SwiftySyncServer.cpp include/SwiftySyncServer.h)
+target_link_libraries(SwiftySyncServer Codable SwiftySyncAuthorization SwiftySyncCommon SwiftySyncStorage ${OPENSSL_LIBRARIES})
+target_include_directories(SwiftySyncServer PUBLIC ${OPENSSL_INCLUDE_DIR} PUBLIC SwiftySyncCommon/CodablePP/include PUBLIC SwiftySyncAuthorization/include PUBLIC SwiftySyncCommon/include PUBLIC SwiftySyncStorage/include)
+add_dependencies(SwiftySyncServer uWebSockets)
 
-add_executable(test_server main.cpp)
+add_executable(test_server test/test.cpp)
 target_link_libraries(test_server SwiftySyncServer)
