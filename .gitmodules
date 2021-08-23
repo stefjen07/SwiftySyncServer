@@ -13,9 +13,9 @@
 	path = SwiftySyncCommon
 	url = https://github.com/stefjen07/SwiftySyncCommon.git
 	branch = main
-[submodule "openssl-cmake"]
-	path = openssl-cmake
-	url = https://github.com/janbar/openssl-cmake.git
 [submodule "uWebSockets"]
 	path = uWebSockets
 	url = https://github.com/uNetworking/uWebSockets.git
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git

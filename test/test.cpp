@@ -3,11 +3,11 @@
 
 #include <SwiftySyncServer.h>
 #include <iostream>
-#include <Authorization.h>
-#include <GoogleAuthorization.h>
-#include <FacebookAuthorization.h>
-#include <SwiftySyncStorage.h>
-#include <Functions.h>
+#include <Authorization.hpp>
+#include <GoogleAuthorization.hpp>
+#include <FacebookAuthorization.hpp>
+#include <SwiftySyncStorage.hpp>
+#include <Functions.hpp>
 
 //#define CHECK_FOR_PRIVILEGES
 

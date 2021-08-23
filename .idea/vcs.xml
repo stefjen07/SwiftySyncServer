@@ -13,7 +13,12 @@
     <mapping directory="$PROJECT_DIR$/SwiftySyncStorage/CodablePP" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon/CodablePP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/openssl-cmake" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/timercpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uWebSockets" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uWebSockets/fuzzing/libEpollFuzzer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uWebSockets/libdeflate" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uWebSockets/uSockets" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/vcpkg" vcs="Git" />
   </component>
 </project>

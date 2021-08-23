@@ -9,7 +9,6 @@
       <config projectName="SwiftySyncServer" targetName="c_api_storage_helper" />
       <config projectName="SwiftySyncServer" targetName="ContinuousMemCheck" />
       <config projectName="SwiftySyncServer" targetName="NightlyBuild" />
-      <config projectName="SwiftySyncServer" targetName="test_common" />
       <config projectName="SwiftySyncServer" targetName="SwiftySyncServer" />
       <config projectName="SwiftySyncServer" targetName="ExperimentalCoverage" />
       <config projectName="SwiftySyncServer" targetName="NightlyMemCheck" />
@@ -29,7 +28,6 @@
       <config projectName="SwiftySyncServer" targetName="SwiftySyncCommon" />
       <config projectName="SwiftySyncServer" targetName="ExperimentalUpdate" />
       <config projectName="SwiftySyncServer" targetName="SwiftySyncStorage" />
-      <config projectName="SwiftySyncServer" targetName="test_storage" />
       <config projectName="SwiftySyncServer" targetName="ExperimentalStart" />
       <config projectName="SwiftySyncServer" targetName="NightlyUpdate" />
       <config projectName="SwiftySyncServer" targetName="ContinuousUpdate" />
@@ -37,12 +35,8 @@
       <config projectName="SwiftySyncServer" targetName="Codable" />
       <config projectName="SwiftySyncServer" targetName="c_api_storage" />
       <config projectName="SwiftySyncServer" targetName="ExperimentalBuild" />
-      <config projectName="SwiftySyncServer" targetName="test_codable" />
-      <config projectName="SwiftySyncServer" targetName="test_c_api_storage" />
       <config projectName="SwiftySyncServer" targetName="SwiftySyncAuthorization" />
-      <config projectName="SwiftySyncServer" targetName="uWebSockets" />
       <config projectName="SwiftySyncServer" targetName="test_server" />
-      <config projectName="SwiftySyncServer" targetName="test_auth" />
       <config projectName="SwiftySyncServer" targetName="Continuous" />
       <config projectName="SwiftySyncServer" targetName="ContinuousSubmit" />
       <config projectName="SwiftySyncServer" targetName="NightlyCoverage" />
@@ -54,31 +48,30 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DCMAKE_TOOLCHAIN_FILE=/Users/evgenij/Documents/GitHub/SwiftySync/vcpkg/scripts/buildsystems/vcpkg.cmake" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ddadb5d-ce80-49ac-96c3-f80d256ce738" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/openssl-cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uWebSockets" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vcpkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitmodules" beforeDir="false" afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySync.sln" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySync.vcxproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySync.vcxproj.filters" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySync.vcxproj.user" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SwiftySyncAuthorization" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncAuthorization" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SwiftySyncCommon" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncCommon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncServer.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncServer.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SwiftySyncCommon/CodablePP" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncCommon/CodablePP" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SwiftySyncStorage" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Usage.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vcpkg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vcpkg.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon/CodablePP" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon/CodablePP" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/SwiftySyncServer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/SwiftySyncServer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/openssl-cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SwiftySyncServer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/SwiftySyncServer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uWebSockets" beforeDir="false" afterPath="$PROJECT_DIR$/uWebSockets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uWebSockets/libdeflate" beforeDir="false" afterPath="$PROJECT_DIR$/uWebSockets/libdeflate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uWebSockets/uSockets" beforeDir="false" afterPath="$PROJECT_DIR$/uWebSockets/uSockets" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +105,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RunManager" selected="CMake Application.test_server">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
@@ -310,37 +303,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test_auth" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="test_auth" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwiftySyncServer" RUN_TARGET_NAME="test_auth">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test_c_api_storage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="test_c_api_storage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwiftySyncServer" RUN_TARGET_NAME="test_c_api_storage">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test_codable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="test_codable" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwiftySyncServer" RUN_TARGET_NAME="test_codable">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test_common" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="test_common" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwiftySyncServer" RUN_TARGET_NAME="test_common">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="test_server" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="test_server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwiftySyncServer" RUN_TARGET_NAME="test_server">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test_storage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="test_storage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwiftySyncServer" RUN_TARGET_NAME="test_storage">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="uWebSockets" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="uWebSockets" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -353,9 +316,7 @@
     <list>
       <item itemvalue="CMake Application.SwiftySyncServer" />
       <item itemvalue="CMake Application.test_server" />
-      <item itemvalue="CMake Application.uWebSockets" />
       <item itemvalue="CMake Application.SwiftySyncAuthorization" />
-      <item itemvalue="CMake Application.test_auth" />
       <item itemvalue="CMake Application.Codable" />
       <item itemvalue="CMake Application.Continuous" />
       <item itemvalue="CMake Application.ContinuousBuild" />
@@ -385,17 +346,13 @@
       <item itemvalue="CMake Application.NightlySubmit" />
       <item itemvalue="CMake Application.NightlyTest" />
       <item itemvalue="CMake Application.NightlyUpdate" />
-      <item itemvalue="CMake Application.test_codable" />
       <item itemvalue="CMake Application.openssl" />
       <item itemvalue="CMake Application.crypto" />
       <item itemvalue="CMake Application.ssl" />
       <item itemvalue="CMake Application.SwiftySyncCommon" />
-      <item itemvalue="CMake Application.test_common" />
       <item itemvalue="CMake Application.c_api_storage" />
       <item itemvalue="CMake Application.c_api_storage_helper" />
       <item itemvalue="CMake Application.SwiftySyncStorage" />
-      <item itemvalue="CMake Application.test_c_api_storage" />
-      <item itemvalue="CMake Application.test_storage" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -420,6 +377,11 @@
       <workItem from="1627994511454" duration="1773000" />
       <workItem from="1628097486321" duration="354000" />
       <workItem from="1628689084233" duration="7465000" />
+      <workItem from="1628705350976" duration="433000" />
+      <workItem from="1628706079542" duration="702000" />
+      <workItem from="1629716758076" duration="1707000" />
+      <workItem from="1629718742949" duration="1791000" />
+      <workItem from="1629720861515" duration="1602000" />
     </task>
     <servers />
   </component>
