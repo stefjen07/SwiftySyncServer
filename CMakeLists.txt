@@ -9,6 +9,8 @@ add_subdirectory(SwiftySyncAuthorization)
 add_subdirectory(SwiftySyncCommon)
 add_subdirectory(SwiftySyncStorage)
 
+find_package(ZLIB)
+
 find_path(WS_INCLUDE_DIR uv.h)
 find_library(UV_LIBRARY libuv)
 find_library(US_LIBRARY uSockets)
@@ -20,7 +22,7 @@ set(OPENSSL_LIBRARIES ssl crypto)
 include_directories(include)
 include_directories(timercpp)
 
-add_library(SwiftySyncServer src/SwiftySyncServer.cpp include/SwiftySyncServer.h)
+add_library(SwiftySyncServer src/SwiftySyncServer.cpp include/SwiftySyncServer.hpp)
 target_link_libraries(SwiftySyncServer ${UV_LIBRARY} ${US_LIBRARY} ${ZLIB_LIBRARY} Codable SwiftySyncAuthorization SwiftySyncCommon SwiftySyncStorage ${OPENSSL_LIBRARIES})
 target_include_directories(SwiftySyncServer PUBLIC ${WS_INCLUDE_DIR} PUBLIC ${OPENSSL_INCLUDE_DIR} PUBLIC SwiftySyncCommon/CodablePP/include PUBLIC SwiftySyncAuthorization/include PUBLIC SwiftySyncCommon/include PUBLIC SwiftySyncStorage/include)
 

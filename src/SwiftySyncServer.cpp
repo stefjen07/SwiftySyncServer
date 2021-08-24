@@ -1,5 +1,5 @@
 #define SERVER
-#include <SwiftySyncServer.h>
+#include <SwiftySyncServer.hpp>
 #include <timercpp.h>
 
 using namespace std;
@@ -52,6 +52,8 @@ void SwiftyServer::authorizeWithStatus(WebSocket ws, AuthorizationStatus status)
     string respond = AUTH_PREFIX;
     if (status == AuthorizationStatus::authorized) {
         respond += AUTHORIZED_LOCALIZE;
+        sockets[data->userId] = ws;
+        ws->subscribe(data->userId);
     }
     else if (status == AuthorizationStatus::corruptedCredentials) {
         respond += CORR_CRED_LOCALIZE;
@@ -65,6 +67,7 @@ void SwiftyServer::authorizeWithStatus(WebSocket ws, AuthorizationStatus status)
 
 void SwiftyServer::authorize(WebSocket ws, string body) {
     ConnectionData* data = (ConnectionData*)ws->getUserData();
+    ws->unsubscribe(data->userId);
     for (auto provider : supportedProviders) {
         if (provider->isValid(body)) {
             auto response = provider->authorize(body);
@@ -295,10 +298,13 @@ void SwiftyServer::run(RunBehavior runBehavior) {
             ConnectionData* data = (ConnectionData*)ws->getUserData();
             data->connectionId = create_uuid();
             behavior.connectionOpened(ws);
-            },
-            .message = [this](auto* ws, string_view message, uWS::OpCode opCode) {
+        }, .message = [this](auto* ws, string_view message, uWS::OpCode opCode) {
             behavior.messageReceived(ws);
             handleMessage(ws, message);
+        }, .close = [this](auto* ws, int code, string_view message) {
+            behavior.connectionClosed(ws);
+            ConnectionData* data = (ConnectionData*)ws->getUserData();
+            ws->unsubscribe(data->userId);
         }
     }).listen(port, [this, runBehavior](auto* token) {
         behavior.completion(token);
@@ -357,4 +363,12 @@ void Collection::read() {
     for (int i = 0; i < documents.size(); i++) {
         documents[i].read();
     }
+}
+
+void SwiftyServer::sendData(string userId, DataUnit data) {
+    string message;
+    for(int i=0;i<data.bytes.size();i++) {
+        message += data.bytes[i];
+    }
+    sockets[userId]->publish(userId, message);
 }

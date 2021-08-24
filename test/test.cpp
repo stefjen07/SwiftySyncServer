@@ -1,7 +1,7 @@
 #define SERVER
 #define SSL_SERVER
 
-#include <SwiftySyncServer.h>
+#include <SwiftySyncServer.hpp>
 #include <iostream>
 #include <Authorization.hpp>
 #include <GoogleAuthorization.hpp>
@@ -21,13 +21,13 @@
 #endif
 
 class DebugProvider : public AuthorizationProvider {
-	AuthorizationResponse authorize(string body) {
+	AuthorizationResponse authorize(std::string body) {
 		AuthorizationResponse response;
 		response.status = AuthorizationStatus::authorized;
 		response.userId = "stefjen07";
 		return response;
 	}
-	bool isValid(string body) {
+	bool isValid(std::string body) {
 		return true;
 	}
 };
@@ -37,26 +37,26 @@ int main() {
 	SwiftyServer server("localhost", port, {
 		.completion = [port](bool started) {
 			if (started) {
-				cout << "Server started on port " << port << endl;
+				std::cout << "Server started on port " << port << std::endl;
 			}
 			else {
-				cout << "Start failed" << endl;
+				std::cout << "Start failed" << std::endl;
 			}
 		},
 		.connectionOpened = [](auto* ws) {
 			auto connectionData = (ConnectionData*)ws->getUserData();
-			cout << "New connection with id " << connectionData->connectionId << "\n";
+			std::cout << "New connection with id " << connectionData->connectionId << "\n";
 		},
 		.messageReceived = [](auto* ws) {
 			auto connectionData = (ConnectionData*)ws->getUserData();
-			cout << "Message received from id " << connectionData->connectionId << "\n";
+			std::cout << "Message received from id " << connectionData->connectionId << "\n";
 		},
 		.authorized = [](AuthorizationStatus status) {
 			if (status == AuthorizationStatus::authorized) {
-				cout << "Authorized\n";
+				std::cout << "Authorized\n";
 			}
 			else {
-				cout << "Authorization failed\n";
+				std::cout << "Authorization failed\n";
 			}
 		}
 	});
@@ -91,11 +91,13 @@ int main() {
 	Collection* tripsCollection = server["trips"];
 	Collection* privilegesCollection = server["privileges"];
 	usersCollection->onDocumentCreating = []() {
-		cout << "New document created\n";
+		std::cout << "New document created\n";
 	};
 	server.rule = {
 		.dataRule = [usersCollection, tripsCollection, privilegesCollection](DataRequest* request) {
+#ifndef CHECK_FOR_PRIVILEGES
 			return true;
+#endif
 			Collection* requestCollection = nullptr;
 			if (request->collectionName == "users")
 				requestCollection = usersCollection;
@@ -155,14 +157,15 @@ int main() {
 	server.run({
 		.afterStart = [usersCollection]() {
 			if (usersCollection == NULL) {
-				cout << "There is no USERS container\n";
+				std::cout << "There is no USERS container\n";
 			}
 			else {
 				usersCollection->createDocument("stefjen07");
 			}
 		},
 		.update = [server]() {
-			cout << "Everything is OK\n";
+
+			std::cout << "Everything is OK\n";
 		},
 		.updateInterval = 10000,
 		.key_filename = "certificate-private-key.pem",

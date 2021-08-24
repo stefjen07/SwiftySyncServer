@@ -17,7 +17,14 @@
 #include <string>
 #include <functional>
 #include <fstream>
+#include <map>
+#ifdef __cpp_lib__filesystem
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
 #include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 #include <iostream>
 
 #include <algorithm>
@@ -25,19 +32,17 @@
 #include <uwebsockets/App.h>
 #endif
 
-using namespace std;
-
 class ConnectionData {
 public:
-	string connectionId;
-	string userId;
+	std::string connectionId;
+	std::string userId;
 };
 
 bool isDataRequest(Request* request);
 
 struct SecurityRule {
-	function<bool(DataRequest*)> dataRule;
-	function<bool(FunctionRequest*)> functionRule;
+	std::function<bool(DataRequest*)> dataRule;
+	std::function<bool(FunctionRequest*)> functionRule;
 
 	bool checkAccess(Request* request);
 };
@@ -50,36 +55,39 @@ typedef uWS::WebSocket<0, 1, ConnectionData>* WebSocket;
 #endif
 
 struct ServerBehavior {
-	function<void(bool)> completion = [](auto result) {};
-	function<void(WebSocket)> connectionOpened = [](auto ws) {};
-	function<void(WebSocket)> messageReceived = [](auto ws) {};
-	function<void(AuthorizationStatus)> authorized = [](auto as) {};
+	std::function<void(bool)> completion = [](auto result) {};
+	std::function<void(WebSocket)> connectionOpened = [](auto ws) {};
+    std::function<void(WebSocket)> connectionClosed = [](auto ws) {};
+	std::function<void(WebSocket)> messageReceived = [](auto ws) {};
+	std::function<void(AuthorizationStatus)> authorized = [](auto as) {};
 };
 
 struct RunBehavior {
-	function<void()> afterStart = []() {};
-	function<void()> update = []() {};
+	std::function<void()> afterStart = []() {};
+	std::function<void()> update = []() {};
 
 	unsigned updateInterval = 1000;
-	string key_filename;
-	string cert_filename;
-	string passphrase;
+	std::string key_filename;
+	std::string cert_filename;
+	std::string passphrase;
 };
 
 class SwiftyServer {
 public:
-	string address;
+	std::string address;
 	int port;
-	string serverUrl = "";
+	std::string serverUrl = "";
 
-	vector<Collection> collections;
-	vector<Function> functions;
-	vector<AuthorizationProvider*> supportedProviders;
+	std::map<std::string, WebSocket> sockets;
+
+	std::vector<Collection> collections;
+	std::vector<Function> functions;
+	std::vector<AuthorizationProvider*> supportedProviders;
 	ServerBehavior behavior;
 
 	SecurityRule rule;
 	
-	Collection* operator [](string name);
+	Collection* operator [](std::string name);
 
 	void read();
 
@@ -87,7 +95,7 @@ public:
 
 	void authorizeWithStatus(WebSocket ws, AuthorizationStatus status);
 
-	void authorize(WebSocket ws, string body);
+	void authorize(WebSocket ws, std::string body);
 
 	void handleDataRequest(WebSocket ws, DataRequest* request);
 
@@ -99,13 +107,15 @@ public:
 
 	void handleRequest(WebSocket ws, Request* request);
 
-	Request* generateRequest(WebSocket ws, string body);
+	Request* generateRequest(WebSocket ws, std::string body);
 
-	void handleMessage(WebSocket ws, string_view message);
+	void handleMessage(WebSocket ws, std::string_view message);
+
+	void sendData(std::string userId, DataUnit data);
 
 	void run(RunBehavior runBehavior);
 
-	SwiftyServer(string address, int port, ServerBehavior behavior) {
+	SwiftyServer(std::string address, int port, ServerBehavior behavior) {
 		this->address = address;
 		this->port = port;
 		this->behavior = behavior;
