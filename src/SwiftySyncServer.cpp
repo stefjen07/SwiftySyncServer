@@ -67,7 +67,6 @@ void SwiftyServer::authorizeWithStatus(WebSocket ws, AuthorizationStatus status)
 
 void SwiftyServer::authorize(WebSocket ws, string body) {
     ConnectionData* data = (ConnectionData*)ws->getUserData();
-    ws->unsubscribe(data->userId);
     for (auto provider : supportedProviders) {
         if (provider->isValid(body)) {
             auto response = provider->authorize(body);
@@ -297,6 +296,7 @@ void SwiftyServer::run(RunBehavior runBehavior) {
         .open = [this](auto* ws) {
             ConnectionData* data = (ConnectionData*)ws->getUserData();
             data->connectionId = create_uuid();
+            ws->subscribe("broadcast");
             behavior.connectionOpened(ws);
         }, .message = [this](auto* ws, string_view message, uWS::OpCode opCode) {
             behavior.messageReceived(ws);
@@ -304,7 +304,7 @@ void SwiftyServer::run(RunBehavior runBehavior) {
         }, .close = [this](auto* ws, int code, string_view message) {
             behavior.connectionClosed(ws);
             ConnectionData* data = (ConnectionData*)ws->getUserData();
-            ws->unsubscribe(data->userId);
+            ws->unsubscribe("broadcast");
         }
     }).listen(port, [this, runBehavior](auto* token) {
         behavior.completion(token);
@@ -370,5 +370,5 @@ void SwiftyServer::sendData(string userId, DataUnit data) {
     for(int i=0;i<data.bytes.size();i++) {
         message += data.bytes[i];
     }
-    sockets[userId]->publish(userId, message);
+    sockets[userId]->send(message);
 }

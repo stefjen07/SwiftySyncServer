@@ -54,20 +54,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1ddadb5d-ce80-49ac-96c3-f80d256ce738" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncAuthorization" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncAuthorization" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SwiftySyncAuthorization/cpp-httplib" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncAuthorization/cpp-httplib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncCommon" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncCommon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncCommon/CodablePP" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncCommon/CodablePP" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncStorage" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon/CodablePP" beforeDir="false" afterPath="$PROJECT_DIR$/SwiftySyncStorage/SwiftySyncCommon/CodablePP" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/SwiftySyncServer.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SwiftySyncServer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/SwiftySyncServer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uWebSockets" beforeDir="false" afterPath="$PROJECT_DIR$/uWebSockets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uWebSockets/libdeflate" beforeDir="false" afterPath="$PROJECT_DIR$/uWebSockets/libdeflate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uWebSockets/uSockets" beforeDir="false" afterPath="$PROJECT_DIR$/uWebSockets/uSockets" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,11 +257,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="c_api_storage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwiftySyncServer" TARGET_NAME="c_api_storage" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -380,7 +363,8 @@
       <workItem from="1629720861515" duration="1602000" />
       <workItem from="1629725996361" duration="4583000" />
       <workItem from="1629755065638" duration="3088000" />
-      <workItem from="1629801352913" duration="3181000" />
+      <workItem from="1629801352913" duration="3419000" />
+      <workItem from="1629808929182" duration="2139000" />
     </task>
     <servers />
   </component>
